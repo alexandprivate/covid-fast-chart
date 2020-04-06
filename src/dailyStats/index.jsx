@@ -1,68 +1,80 @@
 import React from "react";
-
-function Card({ bg, title, value, w = "flex-1" }) {
-  return (
-    <div className={`py-5 px-1 text-center ${w} text-white ${bg}`}>
-      <p>{title}</p>
-      <p className="text-3xl font-bold leading-none">{value}</p>
-    </div>
-  );
-}
+import Card from "./card";
 
 export default function DailyStats({ data }) {
-  return (
-    <>
-      <div className="flex flex-wrap flex-1 items-center border-b border-white">
-        <Card
-          title="Casos"
-          value={data.cases}
-          bg="bg-gray-800"
-          w="w-6/12 md:w-3/12"
-        />
-        <Card
-          title="Activos"
-          value={data.active}
-          bg="bg-gray-700"
-          w="w-6/12 md:w-3/12"
-        />
-        <Card
-          title="Recuparados"
-          value={data.recovered}
-          bg="bg-green-500"
-          w="w-6/12 md:w-3/12"
-        />
-        <Card
-          title="Fallecidos"
-          value={data.deaths}
-          bg="bg-red-500"
-          w="w-6/12 md:w-3/12"
-        />
-      </div>
+    let formatNumber = (num) =>
+        num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    return (
+        <>
+            <div className="flex flex-wrap flex-1 items-center ">
+                <Card
+                    title="Casos"
+                    value={formatNumber(data.cases)}
+                    bg="bg-gray-800"
+                    w="w-full md:w-4/12"
+                />
+                <Card
+                    title="Activos"
+                    value={formatNumber(data.active)}
+                    bg="bg-gray-700"
+                    w="w-full md:w-4/12"
+                />
+                {data.recovered ? (
+                    <Card
+                        title="Recuperados"
+                        value={formatNumber(data.recovered)}
+                        bg="bg-green-500"
+                        w="w-6/12 md:w-4/12"
+                    />
+                ) : (
+                    <Card
+                        title="Recuperados"
+                        value={formatNumber(data.cases - data.active)}
+                        bg="bg-green-500"
+                        w="w-6/12 md:w-4/12"
+                    />
+                )}
+                <Card
+                    title="Muertes"
+                    value={formatNumber(data.deaths)}
+                    bg="bg-red-500"
+                    w={`${
+                        data.critical ? "w-6/12 md:w-3/12" : "w-6/12 md:w-4/12"
+                    }`}
+                />
+                {data.critical && (
+                    <Card
+                        title="Graves"
+                        value={formatNumber(data.critical)}
+                        bg="bg-orange-500"
+                        w="w-full md:w-3/12"
+                    />
+                )}
+                <Card
+                    title="Nuevos Casos"
+                    value={formatNumber(data.todayCases)}
+                    bg="bg-gray-800"
+                    w={`${
+                        data.critical ? "w-6/12 md:w-3/12" : "w-6/12 md:w-4/12"
+                    }`}
+                />
 
-      <div className="flex flex-1 items-center">
-        <Card title="Hoy" value={data.todayCases} bg="bg-gray-800" />
-        <Card
-          title="Cr&iacute;ticos"
-          value={data.critical}
-          bg="bg-orange-500"
-          w="w-4/12 md:w-6/12"
-        />
-        <Card title="Hoy" value={data.todayDeaths} bg="bg-red-500" />
-      </div>
-      <div className="flex w-full flex-col md:flex-row md:items-center mt-5">
-        <span className="flex items-center mr-2 text-sm text-gray-700">
-          <span className="block h-3 w-3 rounded-full bg-green-500 mr-2" />
-          Recuperados
-        </span>
-        <span className="flex items-center mr-2 text-sm text-gray-700">
-          <span className="block h-3 w-3 rounded-full bg-orange-500 mr-2" />
-          Cr&iacute;ticos
-        </span>
-        <span className="flex items-center mr-2 text-sm text-gray-700">
-          <span className="block h-3 w-3 rounded-full bg-red-500 mr-2" />
-          Recuperados
-        </span>
-      </div>
-    </>
-  );
+                <Card
+                    title="Muertes Hoy"
+                    value={formatNumber(data.todayDeaths)}
+                    bg="bg-red-500"
+                    w={`${
+                        data.critical ? "w-6/12 md:w-3/12" : "w-6/12 md:w-4/12"
+                    }`}
+                />
+            </div>
+            <div className="flex">
+                <Card
+                    title="Pruebas"
+                    value={formatNumber(data.tests)}
+                    bg="bg-blue-500"
+                />
+            </div>
+        </>
+    );
 }
