@@ -2,77 +2,42 @@ import React from "react";
 import "./styles.css";
 import DailyStats from "./dailyStats";
 import Select from "./dailyStats/select";
-import Placeholder from "./dailyStats/placeholder";
+import Preloader from "./dailyStats/preloader";
+import NoData, { HasError } from "./noData";
+import useQuery from "./useQuery";
 
-// https://corona.lmao.ninja/states/Florida
+const urlCountry = (country) =>
+    `https://corona.lmao.ninja/countries/${country}`;
+const urlState = (province) => `https://corona.lmao.ninja/states/${province}`;
 
-function NoData() {
-    return (
-        <p className="text-center bg-gray-100 border p-6 rounded w-full">
-            No existen datos
-        </p>
-    );
-}
+const INITIAL_COUNTRY = "Ecuador";
 
 export default function App() {
-    const [data, setData] = React.useState(null);
-    const [country, setCountry] = React.useState("Ecuador");
-    const [province, setProvince] = React.useState("");
-    const [loading, setLoading] = React.useState(true);
+    const { data, loading, error, query } = useQuery(
+        urlCountry(INITIAL_COUNTRY)
+    );
 
-    const query = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch(
-                `https://corona.lmao.ninja/countries/${country}`
-            ).then((res) => res.json());
-            setData(res);
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setLoading(false);
-        }
-    };
+    function handleGetNewCountryData(newCountryName) {
+        const forCountry = urlCountry(newCountryName);
+        query(forCountry);
+    }
 
-    const queryByState = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch(
-                `https://corona.lmao.ninja/states/${province}`
-            ).then((res) => res.json());
-
-            setData(res);
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    React.useEffect(() => {
-        query();
-        if (country !== "Estados Unidos" && province) {
-            setProvince("");
-        }
-    }, [country]);
-
-    React.useEffect(() => {
-        if (province) {
-            queryByState();
-        }
-    }, [province]);
+    function handleGetUsaStateData(newState) {
+        const forState = urlState(newState);
+        query(forState);
+    }
 
     return (
         <div className="container mx-auto py-5 px-2">
             <Select
-                country={country}
-                setCountry={setCountry}
-                province={province}
-                setProvince={setProvince}
+                country={INITIAL_COUNTRY}
+                handleGetNewCountryData={handleGetNewCountryData}
+                handleGetUsaStateData={handleGetUsaStateData}
             />
-            {loading && <Placeholder />}
-            {!loading && data.message && <NoData />}
-            {!loading && data && !data.message && <DailyStats data={data} />}
+            {loading && <Preloader />}
+            {data?.message && <NoData />}
+            {error && <HasError />}
+            {!loading && data && !data?.message && <DailyStats data={data} />}
         </div>
     );
 }

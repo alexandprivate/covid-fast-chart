@@ -5,7 +5,7 @@ export default function DailyStats({ data }) {
     let formatNumber = (num) =>
         num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     return (
-        <>
+        <div className="cards">
             <div className="flex flex-wrap flex-1 items-center ">
                 <Card
                     title="Casos"
@@ -75,6 +75,6 @@ export default function DailyStats({ data }) {
                     bg="bg-blue-500"
                 />
             </div>
-        </>
+        </div>
     );
 }

@@ -1,6 +1,9 @@
 import React from "react";
 import usaStates from "./states.js";
 
+const styledSelect =
+    "flex-1 w-full h-10 rounded-none appearance-none focus:outline-none border-b border-gray-700 bg-white text-gray-800 uppercase mx-3";
+
 const countries = [
     { name: "Ecuador", value: "Ecuador" },
     { name: "Cuba", value: "Cuba" },
@@ -11,24 +14,41 @@ const countries = [
 ];
 
 export default function CustomSelect({
-    setCountry,
-    country,
-    province,
-    setProvince,
+    handleGetNewCountryData,
+    handleGetUsaStateData,
 }) {
+    // TODO get time
     // console.log(new Date(1586142585426));
-    const selectedCountry = countries.find((c) => c.value === country).value;
-    const selectedProvince =
-        province !== "" ? usaStates.find((p) => p.name === province) : "";
+
+    const [country, setCountry] = React.useState("");
+
+    function updateCountry(value) {
+        setCountry(value);
+        handleGetNewCountryData(value);
+    }
+
+    function updateState(value) {
+        handleGetUsaStateData(value);
+    }
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        if (name === "states") {
+            if (value === "") updateCountry(country);
+            else updateState(value);
+        } else {
+            updateCountry(value);
+        }
+    }
 
     return (
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-3 -mx-3">
             <select
-                onChange={(e) => setCountry(e.target.value)}
-                defaultValue={selectedCountry}
+                onChange={handleChange}
+                defaultValue={country}
                 name="countries"
                 id="countries"
-                className="flex-1 w-full h-10 rounded-none appearance-none focus:outline-none border-b bg-white text-lg text-gray-800"
+                className={styledSelect}
             >
                 {countries.map((c) => (
                     <option key={c.value} value={c.value}>
@@ -38,13 +58,12 @@ export default function CustomSelect({
             </select>
             {country === "Estados Unidos" && (
                 <select
-                    onChange={(e) => setProvince(e.target.value)}
-                    defaultValue={selectedProvince}
-                    name="usa-states"
-                    id="usa-states"
-                    className="w-full flex-1 h-10 rounded-none appearance-none focus:outline-none border-b bg-white text-lg text-gray-800"
+                    onChange={handleChange}
+                    name="states"
+                    id="states"
+                    className={styledSelect}
                 >
-                    <option value="">Estado</option>
+                    <option value="">Por Estado</option>
                     {usaStates.map((s) => (
                         <option key={s.name} value={s.name}>
                             {s.name}
