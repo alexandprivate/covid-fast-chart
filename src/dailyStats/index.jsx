@@ -8,34 +8,34 @@ export default function DailyStats({ data }) {
         <div className="cards">
             <div className="flex flex-wrap flex-1 items-center ">
                 <Card
-                    title="Casos"
+                    title="Total cases"
                     value={formatNumber(data.cases)}
                     bg="bg-gray-800"
                     w="w-full md:w-4/12"
                 />
                 <Card
-                    title="Activos"
+                    title="Active"
                     value={formatNumber(data.active)}
                     bg="bg-gray-700"
                     w="w-full md:w-4/12"
                 />
                 {data.recovered ? (
                     <Card
-                        title="Recuperados"
+                        title="Recovered"
                         value={formatNumber(data.recovered)}
                         bg="bg-green-500"
                         w="w-6/12 md:w-4/12"
                     />
                 ) : (
                     <Card
-                        title="Recuperados"
+                        title="Recovered"
                         value={formatNumber(data.cases - data.active)}
                         bg="bg-green-500"
                         w="w-6/12 md:w-4/12"
                     />
                 )}
                 <Card
-                    title="Muertes"
+                    title="Deaths"
                     value={formatNumber(data.deaths)}
                     bg="bg-red-500"
                     w={`${
@@ -44,14 +44,14 @@ export default function DailyStats({ data }) {
                 />
                 {data.critical && (
                     <Card
-                        title="Graves"
+                        title="Critical"
                         value={formatNumber(data.critical)}
                         bg="bg-orange-500"
                         w="w-full md:w-3/12"
                     />
                 )}
                 <Card
-                    title="Nuevos Casos"
+                    title="Today's cases"
                     value={formatNumber(data.todayCases)}
                     bg="bg-gray-800"
                     w={`${
@@ -60,7 +60,7 @@ export default function DailyStats({ data }) {
                 />
 
                 <Card
-                    title="Muertes Hoy"
+                    title="Today's deaths"
                     value={formatNumber(data.todayDeaths)}
                     bg="bg-red-500"
                     w={`${
@@ -70,7 +70,7 @@ export default function DailyStats({ data }) {
             </div>
             <div className="flex">
                 <Card
-                    title="Pruebas"
+                    title="Tests carried so far"
                     value={formatNumber(data.tests)}
                     bg="bg-blue-500"
                 />

@@ -9,13 +9,12 @@ import useQuery from "./useQuery";
 const urlCountry = (country) =>
     `https://corona.lmao.ninja/countries/${country}`;
 const urlState = (province) => `https://corona.lmao.ninja/states/${province}`;
+const urlWorld = "https://corona.lmao.ninja/all";
 
 const INITIAL_COUNTRY = "Ecuador";
 
 export default function App() {
-    const { data, loading, error, query } = useQuery(
-        urlCountry(INITIAL_COUNTRY)
-    );
+    const { data, loading, error, query } = useQuery(urlWorld);
 
     function handleGetNewCountryData(newCountryName) {
         const forCountry = urlCountry(newCountryName);
@@ -27,12 +26,17 @@ export default function App() {
         query(forState);
     }
 
+    function handleGetWorldWide() {
+        query(urlWorld);
+    }
+
     return (
         <div className="container mx-auto py-5 px-2">
             <Select
                 country={INITIAL_COUNTRY}
                 handleGetNewCountryData={handleGetNewCountryData}
                 handleGetUsaStateData={handleGetUsaStateData}
+                handleGetWorldWide={handleGetWorldWide}
             />
             {loading && <Preloader />}
             {data?.message && <NoData />}
