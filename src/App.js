@@ -7,9 +7,11 @@ import NoData, { HasError } from "./noData";
 import useQuery from "./useQuery";
 
 const urlCountry = (country) =>
-    `https://corona.lmao.ninja/countries/${country}`;
-const urlState = (province) => `https://corona.lmao.ninja/states/${province}`;
-const urlWorld = "https://corona.lmao.ninja/all";
+    `https://corona.lmao.ninja/v2/countries/${country}?yesterday=false`;
+
+const urlState = (province) =>
+    `https://corona.lmao.ninja/v2/states/${province}?yesterday=false`;
+const urlWorld = "https://corona.lmao.ninja/v2/all?yesterday=false";
 
 const INITIAL_COUNTRY = "Ecuador";
 
