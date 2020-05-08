@@ -57,7 +57,7 @@ export default function DailyStats({ data }) {
                     color="text-covid-brown"
                     icon={<FaUserInjured />}
                     w={`${
-                        data.critical ? "w-6/12 md:w-4/12" : "w-6/12 md:w-4/12"
+                        data.critical ? "w-full md:w-6/12" : "w-full md:w-6/12"
                     }`}
                 />
 
@@ -67,7 +67,7 @@ export default function DailyStats({ data }) {
                     color="text-covid-red"
                     icon={<GiCrucifix />}
                     w={`${
-                        data.critical ? "w-6/12 md:w-4/12" : "w-6/12 md:w-4/12"
+                        data.critical ? "w-full md:w-6/12" : "w-full md:w-6/12"
                     }`}
                 />
             </div>
