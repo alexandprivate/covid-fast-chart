@@ -2,7 +2,7 @@ import React from "react";
 import usaStates from "./states.js";
 
 const styledSelect =
-    "flex-1 w-full h-10 rounded-none appearance-none focus:outline-none border-b border-gray-700 bg-white text-gray-800 uppercase mx-3";
+    "flex-1 w-full h-12 rounded-none appearance-none focus:outline-none border-b border-gray-800 bg-white text-gray-800 text-xl font-bold uppercase mx-3";
 
 const countries = [
     { name: "Worldwide", value: "Worldwide" },
@@ -47,7 +47,7 @@ export default function CustomSelect({
     }
 
     return (
-        <div className="flex items-center justify-between mb-3 -mx-3">
+        <div className="flex items-center justify-between mb-4 -mx-3">
             <select
                 onChange={handleChange}
                 defaultValue="Worldwide"

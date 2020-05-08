@@ -1,78 +1,82 @@
 import React from "react";
 import Card from "./card";
+import { GiLoveInjection, GiCrucifix } from "react-icons/gi";
+import { FaBed, FaUserInjured, FaUserAlt, FaUserCheck } from "react-icons/fa";
 
 export default function DailyStats({ data }) {
     let formatNumber = (num) =>
         num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     return (
         <div className="cards">
-            <div className="flex flex-wrap flex-1 items-center ">
+            <div className="flex w-full flex-wrap flex-1 items-center ">
                 <Card
                     title="Total cases"
                     value={formatNumber(data.cases)}
-                    bg="bg-gray-800"
-                    w="w-full md:w-4/12"
+                    color="text-covid-purple"
+                    icon={<FaUserAlt />}
                 />
                 <Card
                     title="Active"
                     value={formatNumber(data.active)}
-                    bg="bg-gray-700"
-                    w="w-full md:w-4/12"
+                    color="text-covid-brown"
+                    icon={<FaUserInjured />}
                 />
                 {data.recovered ? (
                     <Card
                         title="Recovered"
                         value={formatNumber(data.recovered)}
-                        bg="bg-green-500"
-                        w="w-6/12 md:w-4/12"
+                        color="text-teal-400"
+                        icon={<FaUserCheck />}
                     />
                 ) : (
                     <Card
                         title="Recovered"
                         value={formatNumber(data.cases - data.active)}
-                        bg="bg-green-500"
-                        w="w-6/12 md:w-4/12"
+                        color="text-teal-400"
                     />
                 )}
                 <Card
                     title="Deaths"
                     value={formatNumber(data.deaths)}
-                    bg="bg-red-500"
-                    w={`${
-                        data.critical ? "w-6/12 md:w-3/12" : "w-6/12 md:w-4/12"
-                    }`}
+                    color="text-covid-red"
+                    icon={<GiCrucifix />}
                 />
+
                 {data.critical && (
                     <Card
                         title="Critical"
                         value={formatNumber(data.critical)}
-                        bg="bg-orange-500"
-                        w="w-full md:w-3/12"
+                        color="text-orange-400"
+                        icon={<FaBed />}
                     />
                 )}
+
                 <Card
                     title="Today's cases"
                     value={formatNumber(data.todayCases)}
-                    bg="bg-gray-800"
+                    color="text-covid-brown"
+                    icon={<FaUserInjured />}
                     w={`${
-                        data.critical ? "w-6/12 md:w-3/12" : "w-6/12 md:w-4/12"
+                        data.critical ? "w-6/12 md:w-4/12" : "w-6/12 md:w-4/12"
                     }`}
                 />
 
                 <Card
                     title="Today's deaths"
                     value={formatNumber(data.todayDeaths)}
-                    bg="bg-red-500"
+                    color="text-covid-red"
+                    icon={<GiCrucifix />}
                     w={`${
-                        data.critical ? "w-6/12 md:w-3/12" : "w-6/12 md:w-4/12"
+                        data.critical ? "w-6/12 md:w-4/12" : "w-6/12 md:w-4/12"
                     }`}
                 />
             </div>
             <div className="flex">
                 <Card
-                    title="Tests carried so far"
+                    title="Total people tested"
                     value={formatNumber(data.tests)}
-                    bg="bg-blue-500"
+                    color="text-covid-purple"
+                    icon={<GiLoveInjection />}
                 />
             </div>
         </div>

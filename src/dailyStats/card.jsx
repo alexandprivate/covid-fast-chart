@@ -1,10 +1,22 @@
 import React from "react";
 
-export default function Card({ bg, title, value, w = "flex-1" }) {
+export default function Card({
+    title,
+    value,
+    w = "w-full",
+    color = "text-teal-400",
+    icon = null,
+}) {
     return (
-        <div className={`py-5 px-1 text-center ${w} text-white ${bg}`}>
-            <p>{title}</p>
-            <p className="text-3xl font-bold leading-none">{value}</p>
+        <div className={`py-4 text-gray-800 ${w}`}>
+            <p className="flex items-center">
+                <span className={`${color} mr-2`}>{icon}</span> {title}
+            </p>
+            <p
+                className={`text-5xl font-black leading-tight font-serif ${color}`}
+            >
+                {value}
+            </p>
         </div>
     );
 }
